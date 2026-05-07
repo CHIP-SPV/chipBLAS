@@ -8,6 +8,12 @@
 #
 # Full testing requires a self-hosted runner with chipStar pre-installed and
 # an OpenCL device accessible.  Point CHIPSTAR_DIR at the install prefix.
+#
+# Self-hosted runner .env requirements:
+#   CHIPSTAR_DIR=<chipStar-install-prefix>
+#   CHIP_BE=opencl
+#   # On Mali/devices needing profiling disabled:
+#   CHIP_OCL_DISABLE_QUEUE_PROFILING=on
 
 name: ci
 
@@ -86,3 +92,39 @@ jobs:
       # For devices without fp64 (e.g. Mali-G52), set:
       #   CHIP_OCL_DISABLE_QUEUE_PROFILING=on
       # in the runner environment if the device requires it.
+
+  test-opencl-linux:
+    name: test (linux-arm64, chipStar/OpenCL)
+    runs-on: [self-hosted, chipstar, opencl, linux]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_PREFIX_PATH="${CHIPSTAR_DIR}" \
+            -DCHIPBLAS_USE_VENDORED_CLBLAST=ON \
+            -DCHIPBLAS_BUILD_TESTS=ON
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Test
+        working-directory: build
+        run: |
+          CHIP_BE=opencl \
+          LD_LIBRARY_PATH="${CHIPSTAR_DIR}/lib:${PWD}" \
+          ctest --output-on-failure -j1
+
+  test-opencl-macos:
+    name: test (macos-arm64, chipStar/PoCL)
+    runs-on: [self-hosted, chipstar, opencl, macos]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: |
