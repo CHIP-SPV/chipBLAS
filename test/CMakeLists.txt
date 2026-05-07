@@ -1,0 +1,6 @@
+foreach(t IN ITEMS lifecycle l1 l2 l3)
+    add_executable(test_${t} test_${t}.cc)
+    target_link_libraries(test_${t} PRIVATE hipblas)
+    target_include_directories(test_${t} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+    add_test(NAME ${t} COMMAND test_${t})
+endforeach()

@@ -1,0 +1,429 @@
+{
+  "kernel_family": "pad",
+  "precision": "32",
+  "best_kernel": "CopyPadMatrix",
+  "best_time": "0.15",
+  "best_parameters": "PAD_DIMX=32 PAD_DIMY=16 PAD_WPTX=1 PAD_WPTY=1 PRECISION=32",
+  "arg_m": "2048",
+  "arg_n": "2048",
+  "arg_alpha": "2.00",
+  "clblast_device_type": "GPU",
+  "clblast_device_vendor": "Intel",
+  "clblast_device_architecture": "",
+  "clblast_device_name": "Intel(R) Arc(TM) A770 Graphics",
+  "device": "Intel(R) Arc(TM) A770 Graphics",
+  "platform_vendor": "Intel(R) Corporation",
+  "platform_version": "OpenCL 3.0 ",
+  "device_vendor": "Intel(R) Corporation",
+  "device_type": "GPU",
+  "device_core_clock": "2400",
+  "device_compute_units": "512",
+  "device_extra_info": "",
+  "results": [
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.271,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.278,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.267,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.261,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.272,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.266,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.279,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.269,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.268,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.277,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.146,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.251,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.274,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.153,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.271,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.293,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.269,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.273,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.284,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.153,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.253,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.282,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.151,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.255,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.289,
+      "parameters": {"PAD_DIMX": 8,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.151,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.153,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.162,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.157,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.159,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.160,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.161,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.151,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.146,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.271,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.148,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.252,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.272,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.146,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.254,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.152,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.153,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.151,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.200,
+      "parameters": {"PAD_DIMX": 16,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.149,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.152,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.149,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.150,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.163,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.150,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 8,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.146,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.152,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.263,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.148,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.151,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.157,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 16,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.147,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.148,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 1,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.259,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.153,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.160,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 2,"PAD_WPTY": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.150,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.155,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyPadMatrix",
+      "time": 0.156,
+      "parameters": {"PAD_DIMX": 32,"PAD_DIMY": 32,"PAD_WPTX": 4,"PAD_WPTY": 4,"PRECISION": 32}
+    }
+  ]
+}

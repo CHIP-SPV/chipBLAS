@@ -1,0 +1,129 @@
+{
+  "kernel_family": "padtranspose",
+  "precision": "32",
+  "best_kernel": "TransposePadMatrix",
+  "best_time": "0.20",
+  "best_parameters": "PADTRA_PAD=1 PADTRA_TILE=16 PADTRA_WPT=2 PRECISION=32",
+  "arg_m": "2048",
+  "arg_n": "2048",
+  "arg_alpha": "2.00",
+  "clblast_device_type": "GPU",
+  "clblast_device_vendor": "Intel",
+  "clblast_device_architecture": "",
+  "clblast_device_name": "Intel(R) Arc(TM) A770 Graphics",
+  "device": "Intel(R) Arc(TM) A770 Graphics",
+  "platform_vendor": "Intel(R) Corporation",
+  "platform_version": "OpenCL 3.0 ",
+  "device_vendor": "Intel(R) Corporation",
+  "device_type": "GPU",
+  "device_core_clock": "2400",
+  "device_compute_units": "512",
+  "device_extra_info": "",
+  "results": [
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.406,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 8,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.406,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 8,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.249,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 8,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.266,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 8,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.260,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 8,"PADTRA_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.239,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 8,"PADTRA_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.392,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 8,"PADTRA_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.467,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 8,"PADTRA_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 1.926,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 8,"PADTRA_WPT": 16,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.258,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 16,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.255,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 16,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.208,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 16,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.202,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 16,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.210,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 16,"PADTRA_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.235,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 16,"PADTRA_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.651,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 16,"PADTRA_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.283,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 32,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.273,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 32,"PADTRA_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.255,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 32,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.230,
+      "parameters": {"PADTRA_PAD": 1,"PADTRA_TILE": 32,"PADTRA_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "TransposePadMatrix",
+      "time": 0.241,
+      "parameters": {"PADTRA_PAD": 0,"PADTRA_TILE": 32,"PADTRA_WPT": 4,"PRECISION": 32}
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+{
+  "kernel_family": "xgemm_direct_1",
+  "precision": "32",
+  "best_kernel": "XgemmDirectTN",
+  "best_time": "0.87",
+  "best_parameters": "KWID=2 MDIMAD=8 MDIMCD=8 NDIMBD=8 NDIMCD=8 PADA=1 PADB=1 PRECISION=32 VWMD=1 VWND=1 WGD=32",
+  "arg_m": "1024",
+  "arg_n": "1024",
+  "arg_k": "1024",
+  "arg_alpha": "2.00",
+  "arg_beta": "2.00",
+  "clblast_device_type": "GPU",
+  "clblast_device_vendor": "Intel",
+  "clblast_device_architecture": "",
+  "clblast_device_name": "Intel(R) Arc(TM) A770 Graphics",
+  "device": "Intel(R) Arc(TM) A770 Graphics",
+  "platform_vendor": "Intel(R) Corporation",
+  "platform_version": "OpenCL 3.0 ",
+  "device_vendor": "Intel(R) Corporation",
+  "device_type": "GPU",
+  "device_core_clock": "2400",
+  "device_compute_units": "512",
+  "device_extra_info": "",
+  "results": [
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.553,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 8}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.818,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.732,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.121,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.526,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 2,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.947,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.379,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.695,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.011,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 5.328,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 16}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 0.872,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.088,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.291,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.747,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.867,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.913,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.881,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.833,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.884,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.895,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.715,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.244,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.542,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.735,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.401,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.290,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.085,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.185,
+      "parameters": {"KWID": 2,"MDIMAD": 8,"MDIMCD": 8,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 4,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.656,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.287,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.581,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.514,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.556,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.836,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.653,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.899,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.672,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.721,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 6.425,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 4.440,
+      "parameters": {"KWID": 2,"MDIMAD": 16,"MDIMCD": 16,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 2,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.541,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 1.881,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 2.188,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 8,"NDIMCD": 8,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 4,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.168,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 3.543,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 16,"NDIMCD": 16,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 2,"WGD": 32}
+    },
+    {
+      "kernel": "XgemmDirectTN",
+      "time": 6.017,
+      "parameters": {"KWID": 2,"MDIMAD": 32,"MDIMCD": 32,"NDIMBD": 32,"NDIMCD": 32,"PADA": 1,"PADB": 1,"PRECISION": 32,"VWMD": 1,"VWND": 1,"WGD": 32}
+    }
+  ]
+}
