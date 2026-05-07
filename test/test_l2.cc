@@ -120,8 +120,10 @@ int main() {
     a = runSgemv(HIPBLAS_OP_T, 64, 48, 1, 1); report("Sgemv T 64x48 inc=1,1", a); ok &= a;
     a = runSgemv(HIPBLAS_OP_N, 33, 27, 2, 3); report("Sgemv N 33x27 inc=2,3", a); ok &= a;
     a = runSgemv(HIPBLAS_OP_T, 33, 27, 2, 3); report("Sgemv T 33x27 inc=2,3", a); ok &= a;
+#if defined(CHIPBLAS_HAS_FP64)
     a = runDgemv(HIPBLAS_OP_N, 64, 48, 1, 1); report("Dgemv N 64x48 inc=1,1", a); ok &= a;
     a = runDgemv(HIPBLAS_OP_T, 64, 48, 1, 1); report("Dgemv T 64x48 inc=1,1", a); ok &= a;
     a = runDgemv(HIPBLAS_OP_T, 33, 27, 2, 1); report("Dgemv T 33x27 inc=2,1", a); ok &= a;
+#endif
     return ok ? 0 : 1;
 }

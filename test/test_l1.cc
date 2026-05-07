@@ -142,11 +142,15 @@ int main() {
     bool a;
     a = runSaxpy(1024, 1, 1);            report("Saxpy n=1024 inc=1,1",  a); ok &= a;
     a = runSaxpy(513, 2, 3);             report("Saxpy n=513  inc=2,3",  a); ok &= a;
+#if defined(CHIPBLAS_HAS_FP64)
     a = runDaxpy(1024, 1, 1);            report("Daxpy n=1024 inc=1,1",  a); ok &= a;
     a = runDaxpy(257, 4, 1);             report("Daxpy n=257  inc=4,1",  a); ok &= a;
+#endif
     a = runSscal(2048, 1);               report("Sscal n=2048 inc=1",    a); ok &= a;
     a = runSscal(331, 5);                report("Sscal n=331  inc=5",    a); ok &= a;
+#if defined(CHIPBLAS_HAS_FP64)
     a = runDscal(2048, 1);               report("Dscal n=2048 inc=1",    a); ok &= a;
     a = runDscal(331, 3);                report("Dscal n=331  inc=3",    a); ok &= a;
+#endif
     return ok ? 0 : 1;
 }

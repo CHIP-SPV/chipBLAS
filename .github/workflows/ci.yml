@@ -14,6 +14,8 @@
 #   CHIP_BE=opencl
 #   # On Mali/devices needing profiling disabled:
 #   CHIP_OCL_DISABLE_QUEUE_PROFILING=on
+#   # On Mali-G52 (no fp64) set:
+#   CHIPBLAS_CMAKE_EXTRA=-DCHIPBLAS_HAS_FP64=OFF
 
 name: ci
 
@@ -106,7 +108,8 @@ jobs:
           cmake -S . -B build -G Ninja \
             -DCMAKE_PREFIX_PATH="${CHIPSTAR_DIR}" \
             -DCHIPBLAS_USE_VENDORED_CLBLAST=ON \
-            -DCHIPBLAS_BUILD_TESTS=ON
+            -DCHIPBLAS_BUILD_TESTS=ON \
+            ${CHIPBLAS_CMAKE_EXTRA:-}
 
       - name: Build
         run: cmake --build build -j
@@ -128,3 +131,18 @@ jobs:
 
       - name: Configure
         run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_PREFIX_PATH="${CHIPSTAR_DIR}" \
+            -DCHIPBLAS_USE_VENDORED_CLBLAST=ON \
+            -DCHIPBLAS_BUILD_TESTS=ON \
+            ${CHIPBLAS_CMAKE_EXTRA:-}
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Test
+        working-directory: build
+        run: |
+          CHIP_BE=opencl \
+          DYLD_FALLBACK_LIBRARY_PATH="${CHIPSTAR_DIR}/lib:${PWD}:${DYLD_FALLBACK_LIBRARY_PATH:-}" \
+          ctest --output-on-failure -j1

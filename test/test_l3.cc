@@ -216,8 +216,10 @@ int main() {
         char tag[64];
         std::snprintf(tag, sizeof(tag), "Sgemm %s %dx%dx%d", p.tag, M, N, K);
         a = runSgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+#if defined(CHIPBLAS_HAS_FP64)
         std::snprintf(tag, sizeof(tag), "Dgemm %s %dx%dx%d", p.tag, M, N, K);
         a = runDgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+#endif
     }
 
     OpPair complex_ops[] = {
@@ -230,8 +232,10 @@ int main() {
         char tag[64];
         std::snprintf(tag, sizeof(tag), "Cgemm %s %dx%dx%d", p.tag, M, N, K);
         a = runCgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+#if defined(CHIPBLAS_HAS_FP64)
         std::snprintf(tag, sizeof(tag), "Zgemm %s %dx%dx%d", p.tag, M, N, K);
         a = runZgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+#endif
     }
 
     return ok ? 0 : 1;
