@@ -12,6 +12,8 @@
 # Self-hosted runner .env requirements:
 #   CHIPSTAR_DIR=<chipStar-install-prefix>
 #   CHIP_BE=opencl
+#   # OpenCL ICD loader install prefix (if separate from chipStar):
+#   OCL_ICD_DIR=<ocl-icd-loader-install-prefix>
 #   # On Mali/devices needing profiling disabled:
 #   CHIP_OCL_DISABLE_QUEUE_PROFILING=on
 #   # On Mali-G52 (no fp64) set:
@@ -132,7 +134,7 @@ jobs:
       - name: Configure
         run: |
           cmake -S . -B build -G Ninja \
-            -DCMAKE_PREFIX_PATH="${CHIPSTAR_DIR}" \
+            -DCMAKE_PREFIX_PATH="${CHIPSTAR_DIR}${OCL_ICD_DIR:+;${OCL_ICD_DIR}}" \
             -DCHIPBLAS_USE_VENDORED_CLBLAST=ON \
             -DCHIPBLAS_BUILD_TESTS=ON \
             ${CHIPBLAS_CMAKE_EXTRA:-}
