@@ -29,9 +29,10 @@ struct Handle {
     cl_device_id      device   = nullptr;
     cl_context        context  = nullptr;
     cl_command_queue  queue    = nullptr;
-    bool              isOpenCL = false;  // false ⇒ stream is on Level Zero
+    bool              isOpenCL = false;  // true only after bridgeBindStream succeeds
 
-    // Cached chipStar backend tag. One of: "opencl", "level0", "unknown".
+    // Cached chipStar backend tag from last hipGetBackendNativeHandles [0].
+    // One of: "opencl", "level0", "unknown".
     // String literal — no ownership.
     const char* backendName = "unknown";
 };

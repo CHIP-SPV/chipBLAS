@@ -39,9 +39,15 @@ hipblasStatus_t hipblasDestroy(hipblasHandle_t handle) {
 hipblasStatus_t hipblasSetStream(hipblasHandle_t handle, hipStream_t stream) {
     if (!handle) return HIPBLAS_STATUS_HANDLE_IS_NULLPTR;
     auto* h = reinterpret_cast<Handle*>(handle);
+    hipStream_t previous = h->stream;
     h->stream = stream;
     // Re-bind: a different stream may sit on a different cl_command_queue.
-    return chipblas::bridgeBindStream(*h);
+    auto st = chipblas::bridgeBindStream(*h);
+    if (st != HIPBLAS_STATUS_SUCCESS) {
+        h->stream = previous;
+        (void)chipblas::bridgeBindStream(*h);
+    }
+    return st;
 }
 
 hipblasStatus_t hipblasGetStream(hipblasHandle_t handle, hipStream_t* stream) {

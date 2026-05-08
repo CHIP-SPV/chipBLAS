@@ -35,14 +35,6 @@ namespace {
 //   [4] cl_command_queue
 constexpr int kHandleCount = 5;
 
-const char* readBackendTag(uintptr_t tag) {
-    auto* s = reinterpret_cast<const char*>(tag);
-    if (!s) return "unknown";
-    if (std::strcmp(s, "opencl") == 0) return "opencl";
-    if (std::strcmp(s, "level0") == 0) return "level0";
-    return "unknown";
-}
-
 } // namespace
 
 hipblasStatus_t bridgeBindStream(Handle& h) {
@@ -59,11 +51,22 @@ hipblasStatus_t bridgeBindStream(Handle& h) {
         return HIPBLAS_STATUS_INTERNAL_ERROR;
     }
 
-    h.backendName = readBackendTag(handles[0]);
-    if (std::strcmp(h.backendName, "opencl") != 0) {
+    auto* backendStr = reinterpret_cast<const char*>(handles[0]);
+    if (!backendStr || std::strcmp(backendStr, "opencl") != 0) {
+        // chipBLAS is OpenCL-only; never leave stale CL_* from an earlier binding
+        // (e.g. hipblasSetStream from OpenCL queue to Level Zero queue).
+        h.platform = nullptr;
+        h.device   = nullptr;
+        h.context  = nullptr;
+        h.queue    = nullptr;
         h.isOpenCL = false;
-        return HIPBLAS_STATUS_SUCCESS;
+        if (backendStr && std::strcmp(backendStr, "level0") == 0)
+            h.backendName = "level0";
+        else
+            h.backendName = "unknown";
+        return HIPBLAS_STATUS_NOT_SUPPORTED;
     }
+    h.backendName = "opencl";
 
     if (numHandles < kHandleCount) {
         return HIPBLAS_STATUS_INTERNAL_ERROR;
