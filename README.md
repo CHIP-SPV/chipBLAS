@@ -111,9 +111,9 @@ own module uses the newer one.
 PoCL / chipStar testing on macOS may need canonical SVM device pointers for
 the bridge (see `src/hipblas_ocl.cc`): set
 `CHIP_OCL_USE_ALLOC_STRATEGY=svm` when running tests (the `test-opencl-macos`
-CI job sets this for the self-hosted runner).
-
-## Use
+CI job sets this for the self-hosted runner). CLBlast may return
+`kNoHalfPrecision` (-2045) for `hipblasHalf*` kernels on CPU/PoCL stacks; that
+CI job also sets `CHIPBLAS_SKIP_HALF_API_SURFACE` so `api_surface` can complete.
 
 ```cpp
 #include <hip/hip_runtime.h>

@@ -1,11 +1,16 @@
 // Exercise every hipblas* entry in include/hipblas/hipblas.h at least once with
 // small valid dimensions (dispatch + SUCCESS). Complements numerical tests.
 //
+// If CHIPBLAS_SKIP_HALF_API_SURFACE is set (e.g. OpenCL stacks where CLBlast
+// reports kNoHalfPrecision / device lacks fp16 kernels), hipblasHalf* paths
+// are skipped so the rest of the surface still runs under ctest.
+//
 // SPDX-License-Identifier: MIT
 
 #include "test_common.hh"
 
 #include <cstdint>
+#include <cstdlib>
 #include <cstdio>
 #include <cstring>
 #include <vector>
@@ -60,6 +65,7 @@ int main() {
 
     hipblasHandle_t h{};
     CHECK_BLAS(hipblasCreate(&h));
+    const bool skipHalfSurface = std::getenv("CHIPBLAS_SKIP_HALF_API_SURFACE");
 
     int ver = 0;
     CHECK_BLAS(hipblasGetVersion(h, &ver));
@@ -233,12 +239,14 @@ int main() {
 #endif
 
     hipblasHalf *d_hx = nullptr, *d_hy = nullptr, *d_ha = nullptr;
-    CHECK_HIP(hipMalloc(&d_hx, N8 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_hy, N8 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_ha, sizeof(hipblasHalf)));
-    h2d(d_hx, N8, HF_ONE);
-    h2d(d_hy, N8, HF_ONE);
-    h2d(d_ha, 1, HF_ONE);
+    if (!skipHalfSurface) {
+        CHECK_HIP(hipMalloc(&d_hx, N8 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_hy, N8 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_ha, sizeof(hipblasHalf)));
+        h2d(d_hx, N8, HF_ONE);
+        h2d(d_hy, N8, HF_ONE);
+        h2d(d_ha, 1, HF_ONE);
+    }
 
     float *d_rotg_a = nullptr, *d_rotg_b = nullptr, *d_rotg_c = nullptr, *d_rotg_s = nullptr;
     CHECK_HIP(hipMalloc(&d_rotg_a, sizeof(float)));
@@ -360,17 +368,19 @@ int main() {
     CHECK_BLAS(hipblasZswap(h, N8, d_zx, 1, d_zy, 1));
 #endif
 
-    h2d(d_hx, N8, HF_ONE);
-    h2d(d_hy, N8, HF_ONE);
-    CHECK_BLAS(hipblasHaxpy(h, N8, d_ha, d_hx, 1, d_hy, 1));
-    h2d(d_hx, N8, HF_ONE);
-    CHECK_BLAS(hipblasHscal(h, N8, d_ha, d_hx, 1));
-    h2d(d_hx, N8, HF_ONE);
-    h2d(d_hy, N8, HF_ONE);
-    CHECK_BLAS(hipblasHcopy(h, N8, d_hx, 1, d_hy, 1));
-    h2d(d_hx, N8, HF_ONE);
-    h2d(d_hy, N8, HF_ONE);
-    CHECK_BLAS(hipblasHswap(h, N8, d_hx, 1, d_hy, 1));
+    if (!skipHalfSurface) {
+        h2d(d_hx, N8, HF_ONE);
+        h2d(d_hy, N8, HF_ONE);
+        CHECK_BLAS(hipblasHaxpy(h, N8, d_ha, d_hx, 1, d_hy, 1));
+        h2d(d_hx, N8, HF_ONE);
+        CHECK_BLAS(hipblasHscal(h, N8, d_ha, d_hx, 1));
+        h2d(d_hx, N8, HF_ONE);
+        h2d(d_hy, N8, HF_ONE);
+        CHECK_BLAS(hipblasHcopy(h, N8, d_hx, 1, d_hy, 1));
+        h2d(d_hx, N8, HF_ONE);
+        h2d(d_hy, N8, HF_ONE);
+        CHECK_BLAS(hipblasHswap(h, N8, d_hx, 1, d_hy, 1));
+    }
 
     // Level 2 matrices & vectors
     const int lda6 = m6, ldbGer = m6;
@@ -576,14 +586,17 @@ int main() {
 #endif
 
     hipblasHalf *d_Ah = nullptr, *d_xh = nullptr, *d_yh = nullptr;
-    CHECK_HIP(hipMalloc(&d_Ah, lda6 * n5g * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_xh, N8 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_yh, N8 * sizeof(hipblasHalf)));
-    h2d(d_Ah, lda6 * n5g, HF_ONE);
-    h2d(d_xh, n5g, HF_ONE);
-    h2d(d_yh, m6, HF_ONE);
-    hipblasHalf hf0 = static_cast<hipblasHalf>(0u);
-    CHECK_BLAS(hipblasHgemv(h, HIPBLAS_OP_N, m6, n5g, d_ha, d_Ah, lda6, d_xh, 1, &hf0, d_yh, 1));
+    if (!skipHalfSurface) {
+        CHECK_HIP(hipMalloc(&d_Ah, lda6 * n5g * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_xh, N8 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_yh, N8 * sizeof(hipblasHalf)));
+        h2d(d_Ah, lda6 * n5g, HF_ONE);
+        h2d(d_xh, n5g, HF_ONE);
+        h2d(d_yh, m6, HF_ONE);
+        hipblasHalf hf0 = static_cast<hipblasHalf>(0u);
+        CHECK_BLAS(hipblasHgemv(h, HIPBLAS_OP_N, m6, n5g, d_ha, d_Ah, lda6, d_xh, 1, &hf0,
+                                d_yh, 1));
+    }
 
     // Level 3
     float *d_Agg = nullptr, *d_Bgg = nullptr, *d_Cgg = nullptr;
@@ -1114,50 +1127,52 @@ int main() {
 #endif
 
     hipblasHalf *d_AHg = nullptr, *d_BHg = nullptr, *d_CHg = nullptr;
-    CHECK_HIP(hipMalloc(&d_AHg, lda4 * k2 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_BHg, k2 * n3 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_CHg, ldc4 * n3 * sizeof(hipblasHalf)));
-    h2d(d_AHg, lda4 * k2, HF_ONE);
-    h2d(d_BHg, k2 * n3, HF_ONE);
-    h2d(d_CHg, ldc4 * n3, HF_ONE);
-    CHECK_BLAS(hipblasHgemm(h, HIPBLAS_OP_N, HIPBLAS_OP_N, m4, n3, k2, d_ha, d_AHg, lda4, d_BHg,
-                            k2, d_ha, d_CHg, ldc4));
-
     hipblasHalf *d_AHs = nullptr, *d_BHs = nullptr, *d_CHs = nullptr;
-    CHECK_HIP(hipMalloc(&d_AHs, lda4 * m4 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_BHs, ldb4 * n3 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_CHs, ldc4 * n3 * sizeof(hipblasHalf)));
-    h2d(d_AHs, lda4 * m4, HF_ONE);
-    h2d(d_BHs, ldb4 * n3, HF_ONE);
-    h2d(d_CHs, ldc4 * n3, HF_ONE);
-    CHECK_BLAS(hipblasHsymm(h, HIPBLAS_SIDE_LEFT, HIPBLAS_FILL_MODE_LOWER, m4, n3, d_ha, d_AHs,
-                            lda4, d_BHs, ldb4, d_ha, d_CHs, ldc4));
-
     hipblasHalf *d_AHk = nullptr, *d_CHk = nullptr;
-    CHECK_HIP(hipMalloc(&d_AHk, ld5 * k3 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_CHk, ld5 * n5 * sizeof(hipblasHalf)));
-    h2d(d_AHk, ld5 * k3, HF_ONE);
-    h2d(d_CHk, ld5 * n5, HF_ONE);
-    CHECK_BLAS(hipblasHsyrk(h, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N, n5, k3, d_ha, d_AHk, ld5,
-                            d_ha, d_CHk, ld5));
-
     hipblasHalf *d_AH2a = nullptr, *d_AH2b = nullptr, *d_CH2 = nullptr;
-    CHECK_HIP(hipMalloc(&d_AH2a, ld5 * k3 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_AH2b, ld5 * k3 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_CH2, ld5 * n5 * sizeof(hipblasHalf)));
-    h2d(d_AH2a, ld5 * k3, HF_ONE);
-    h2d(d_AH2b, ld5 * k3, HF_ONE);
-    h2d(d_CH2, ld5 * n5, HF_ONE);
-    CHECK_BLAS(hipblasHsyr2k(h, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N, n5, k3, d_ha, d_AH2a, ld5,
-                             d_AH2b, ld5, d_ha, d_CH2, ld5));
-
     hipblasHalf *d_AHt = nullptr, *d_BHt = nullptr;
-    CHECK_HIP(hipMalloc(&d_AHt, lda4 * m4 * sizeof(hipblasHalf)));
-    CHECK_HIP(hipMalloc(&d_BHt, ldb4 * n3 * sizeof(hipblasHalf)));
-    h2d(d_AHt, lda4 * m4, HF_ONE);
-    h2d(d_BHt, ldb4 * n3, HF_ONE);
-    CHECK_BLAS(hipblasHtrmm(h, HIPBLAS_SIDE_LEFT, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N,
-                            HIPBLAS_DIAG_NON_UNIT, m4, n3, d_ha, d_AHt, lda4, d_BHt, ldb4));
+    if (!skipHalfSurface) {
+        CHECK_HIP(hipMalloc(&d_AHg, lda4 * k2 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_BHg, k2 * n3 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_CHg, ldc4 * n3 * sizeof(hipblasHalf)));
+        h2d(d_AHg, lda4 * k2, HF_ONE);
+        h2d(d_BHg, k2 * n3, HF_ONE);
+        h2d(d_CHg, ldc4 * n3, HF_ONE);
+        CHECK_BLAS(hipblasHgemm(h, HIPBLAS_OP_N, HIPBLAS_OP_N, m4, n3, k2, d_ha, d_AHg, lda4,
+                                d_BHg, k2, d_ha, d_CHg, ldc4));
+
+        CHECK_HIP(hipMalloc(&d_AHs, lda4 * m4 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_BHs, ldb4 * n3 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_CHs, ldc4 * n3 * sizeof(hipblasHalf)));
+        h2d(d_AHs, lda4 * m4, HF_ONE);
+        h2d(d_BHs, ldb4 * n3, HF_ONE);
+        h2d(d_CHs, ldc4 * n3, HF_ONE);
+        CHECK_BLAS(hipblasHsymm(h, HIPBLAS_SIDE_LEFT, HIPBLAS_FILL_MODE_LOWER, m4, n3, d_ha, d_AHs,
+                                lda4, d_BHs, ldb4, d_ha, d_CHs, ldc4));
+
+        CHECK_HIP(hipMalloc(&d_AHk, ld5 * k3 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_CHk, ld5 * n5 * sizeof(hipblasHalf)));
+        h2d(d_AHk, ld5 * k3, HF_ONE);
+        h2d(d_CHk, ld5 * n5, HF_ONE);
+        CHECK_BLAS(hipblasHsyrk(h, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N, n5, k3, d_ha, d_AHk,
+                                ld5, d_ha, d_CHk, ld5));
+
+        CHECK_HIP(hipMalloc(&d_AH2a, ld5 * k3 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_AH2b, ld5 * k3 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_CH2, ld5 * n5 * sizeof(hipblasHalf)));
+        h2d(d_AH2a, ld5 * k3, HF_ONE);
+        h2d(d_AH2b, ld5 * k3, HF_ONE);
+        h2d(d_CH2, ld5 * n5, HF_ONE);
+        CHECK_BLAS(hipblasHsyr2k(h, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N, n5, k3, d_ha, d_AH2a,
+                                 ld5, d_AH2b, ld5, d_ha, d_CH2, ld5));
+
+        CHECK_HIP(hipMalloc(&d_AHt, lda4 * m4 * sizeof(hipblasHalf)));
+        CHECK_HIP(hipMalloc(&d_BHt, ldb4 * n3 * sizeof(hipblasHalf)));
+        h2d(d_AHt, lda4 * m4, HF_ONE);
+        h2d(d_BHt, ldb4 * n3, HF_ONE);
+        CHECK_BLAS(hipblasHtrmm(h, HIPBLAS_SIDE_LEFT, HIPBLAS_FILL_MODE_LOWER, HIPBLAS_OP_N,
+                                HIPBLAS_DIAG_NON_UNIT, m4, n3, d_ha, d_AHt, lda4, d_BHt, ldb4));
+    }
 
     // Free
     hipFree(d_sx);
@@ -1296,7 +1311,7 @@ int main() {
     CHECK_HIP(hipStreamDestroy(stream));
     CHECK_BLAS(hipblasDestroy(h));
 
-    std::printf(
-        "api_surface: SUCCESS coverage + shim negative-arg checks completed\n");
+    std::printf("api_surface: SUCCESS coverage + shim negative-arg checks%s\n",
+                skipHalfSurface ? " (half-precision calls skipped)" : "");
     return 0;
 }
