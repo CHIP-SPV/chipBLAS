@@ -108,12 +108,14 @@ Both upper- and lower-case variants of `OPENCL_*` are needed because
 CLBlast's bundled `FindOpenCL.cmake` uses the older spelling while CMake's
 own module uses the newer one.
 
-PoCL / chipStar testing on macOS may need canonical SVM device pointers for
-the bridge (see `src/hipblas_ocl.cc`): set
-`CHIP_OCL_USE_ALLOC_STRATEGY=svm` when running tests (the `test-opencl-macos`
-CI job sets this for the self-hosted runner). CLBlast may return
-`kNoHalfPrecision` (-2045) for `hipblasHalf*` kernels on CPU/PoCL stacks; that
-CI job also sets `CHIPBLAS_SKIP_HALF_API_SURFACE` so `api_surface` can complete.
+PoCL / limited OpenCL stacks: use **`CHIP_OCL_USE_ALLOC_STRATEGY=svm`** for
+canonical HIP pointers with the **`USE_HOST_PTR`** bridge (both
+**`test-opencl-macos`** and **`test-opencl-linux`** CI jobs set this). If
+CLBlast returns **`kNoHalfPrecision`** (-2045) on **`hipblasHalf*`** paths, set
+**`CHIPBLAS_SKIP_HALF_API_SURFACE`** so `api_surface` can complete (CI sets
+this on both self-hosted jobs).
+
+## Use
 
 ```cpp
 #include <hip/hip_runtime.h>

@@ -122,6 +122,7 @@ jobs:
         working-directory: build
         env:
           CHIP_OCL_USE_ALLOC_STRATEGY: svm
+          CHIPBLAS_SKIP_HALF_API_SURFACE: "1"
         run: |
           CHIP_BE=opencl \
           LD_LIBRARY_PATH="${CHIPSTAR_DIR}/lib:${PWD}" \
