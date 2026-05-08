@@ -77,13 +77,4 @@ hipblasStatus_t hipblasGetVersion(hipblasHandle_t handle, int* version) {
     return HIPBLAS_STATUS_SUCCESS;
 }
 
-// --- chipblas_ext.h ---------------------------------------------------------
-
-int chipblasVersion(void) { return 100; }
-
-const char* chipblasBackend(hipblasHandle_t handle) {
-    if (!handle) return "unknown";
-    return reinterpret_cast<Handle*>(handle)->backendName;
-}
-
 } // extern "C"

@@ -1,14 +1,10 @@
 // Lifecycle smoke: create/destroy, set/get stream, set/get pointer mode,
-// version queries, chipblasBackend extension. No CPU reference — these
-// are state-machine checks, not numerical.
+// and version queries. No CPU reference — these are state-machine checks,
+// not numerical.
 //
 // SPDX-License-Identifier: MIT
 
 #include "test_common.hh"
-
-#include <chipblas/chipblas_ext.h>
-
-#include <cstring>
 
 using namespace chipblas_test;
 
@@ -73,22 +69,14 @@ int main() {
         CHECK_BLAS(hipblasDestroy(h));
     }
 
-    // Version + chipblasBackend.
+    // Version query.
     {
         hipblasHandle_t h;
         CHECK_BLAS(hipblasCreate(&h));
         int v = 0;
         CHECK_BLAS(hipblasGetVersion(h, &v));
-        bool ok = (v > 0) && (chipblasVersion() == v);
-        const char* b = chipblasBackend(h);
-        ok &= (b != nullptr);
-        // We need the OpenCL backend for any of the BLAS tests to work;
-        // if we're not on it, the rest of the suite will skip — flag it
-        // here as a warning, not a failure.
-        if (std::strcmp(b, "opencl") != 0) {
-            std::printf("  note: backend is '%s' (BLAS tests will skip)\n", b);
-        }
-        report("version-and-backend", ok);
+        bool ok = (v > 0);
+        report("version", ok);
         allOk &= ok;
         CHECK_BLAS(hipblasDestroy(h));
     }

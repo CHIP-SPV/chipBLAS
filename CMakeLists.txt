@@ -115,7 +115,7 @@ install(TARGETS hipblas
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/hipblas include/chipblas
+install(DIRECTORY include/hipblas
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # --- Tests --------------------------------------------------------------------

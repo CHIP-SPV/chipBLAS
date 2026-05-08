@@ -6,7 +6,6 @@
 #define CHIPBLAS_INTERNAL_HH
 
 #include "hipblas/hipblas.h"
-#include "chipblas/chipblas_ext.h"
 
 #define CL_TARGET_OPENCL_VERSION 220
 #include <CL/cl.h>
@@ -32,8 +31,8 @@ struct Handle {
     cl_command_queue  queue    = nullptr;
     bool              isOpenCL = false;  // false ⇒ stream is on Level Zero
 
-    // Cached "backend" string for chipblasBackend(). One of:
-    // "opencl", "level0", "unknown". String literal — no ownership.
+    // Cached chipStar backend tag. One of: "opencl", "level0", "unknown".
+    // String literal — no ownership.
     const char* backendName = "unknown";
 };
 
