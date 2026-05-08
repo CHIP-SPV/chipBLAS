@@ -39,25 +39,47 @@ void h2d(hipblasHalf* d, size_t n, hipblasHalf v) {
     CHECK_HIP(hipMemcpy(d, h.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice));
 }
 
+// OpenCL shim + handle layer: INVALID_VALUE / HANDLE_IS_NULLPTR / NOT_SUPPORTED
+// must not reach CLBlast when arguments are invalid.
+#define EXPECT_BLAS_STATUS(stmt, expected)                                                         \
+    do {                                                                                            \
+        hipblasStatus_t _got = (stmt);                                                              \
+        if (_got != (expected)) {                                                                   \
+            std::fprintf(stderr,                                                                    \
+                         "%s:%d expected hipblasStatus %d, got %d for %s\n",                      \
+                         __FILE__, __LINE__, static_cast<int>(expected),                            \
+                         static_cast<int>(_got), #stmt);                                            \
+            return 1;                                                                               \
+        }                                                                                           \
+    } while (0)
+
 } // namespace
 
 int main() {
+    EXPECT_BLAS_STATUS(hipblasCreate(nullptr), HIPBLAS_STATUS_INVALID_VALUE);
+
     hipblasHandle_t h{};
     CHECK_BLAS(hipblasCreate(&h));
 
     int ver = 0;
     CHECK_BLAS(hipblasGetVersion(h, &ver));
+    EXPECT_BLAS_STATUS(hipblasGetVersion(h, nullptr), HIPBLAS_STATUS_INVALID_VALUE);
 
     hipblasPointerMode_t pm = HIPBLAS_POINTER_MODE_DEVICE;
     CHECK_BLAS(hipblasGetPointerMode(h, &pm));
+    EXPECT_BLAS_STATUS(hipblasGetPointerMode(h, nullptr), HIPBLAS_STATUS_INVALID_VALUE);
     CHECK_BLAS(hipblasSetPointerMode(h, HIPBLAS_POINTER_MODE_HOST));
     CHECK_BLAS(hipblasGetPointerMode(h, &pm));
 
     hipStream_t stream{};
     CHECK_HIP(hipStreamCreate(&stream));
+    EXPECT_BLAS_STATUS(hipblasSetStream(nullptr, stream), HIPBLAS_STATUS_HANDLE_IS_NULLPTR);
     CHECK_BLAS(hipblasSetStream(h, stream));
     hipStream_t streamGot{};
     CHECK_BLAS(hipblasGetStream(h, &streamGot));
+    EXPECT_BLAS_STATUS(hipblasGetStream(h, nullptr), HIPBLAS_STATUS_INVALID_VALUE);
+    EXPECT_BLAS_STATUS(hipblasSetPointerMode(nullptr, HIPBLAS_POINTER_MODE_HOST),
+                       HIPBLAS_STATUS_HANDLE_IS_NULLPTR);
 
     const float f1 = 1.0f, f2 = 2.0f, f0 = 0.0f;
 #if defined(CHIPBLAS_HAS_FP64)
@@ -123,6 +145,40 @@ int main() {
         CHECK_HIP(hipMemcpy(d_sy, hy.data(), N8 * sizeof(float), hipMemcpyHostToDevice));
     };
 
+    {
+        const float a1 = 1.0f;
+        EXPECT_BLAS_STATUS(hipblasSaxpy(h, N8, nullptr, d_sx, 1, d_sy, 1),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSaxpy(h, N8, &a1, nullptr, 1, d_sy, 1),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSaxpy(h, N8, &a1, d_sx, 1, nullptr, 1),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSaxpy(h, N8, &a1, d_sx, 0, d_sy, 1),
+                           HIPBLAS_STATUS_NOT_SUPPORTED);
+        EXPECT_BLAS_STATUS(hipblasSscal(h, N8, nullptr, d_sx, 1), HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSscal(h, N8, &a1, d_sx, 0), HIPBLAS_STATUS_NOT_SUPPORTED);
+    }
+
+    {
+        float *d_NA = nullptr, *d_NB = nullptr, *d_NC = nullptr;
+        CHECK_HIP(hipMalloc(&d_NA, (size_t)m4 * k2 * sizeof(float)));
+        CHECK_HIP(hipMalloc(&d_NB, (size_t)k2 * n3 * sizeof(float)));
+        CHECK_HIP(hipMalloc(&d_NC, (size_t)m4 * n3 * sizeof(float)));
+        const float a1 = 1.0f, b1 = 0.0f;
+        EXPECT_BLAS_STATUS(hipblasSgemm(h, HIPBLAS_OP_N, HIPBLAS_OP_N, m4, n3, k2, &a1, nullptr,
+                                      m4, d_NB, k2, &b1, d_NC, m4),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSgemv(h, HIPBLAS_OP_N, m4, k2, &a1, nullptr, m4,
+                                        d_NB, 1, &b1, d_NC, 1),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasSgemv(nullptr, HIPBLAS_OP_N, m4, k2, &a1, d_NA, m4, d_NB, 1,
+                                        &b1, d_NC, 1),
+                           HIPBLAS_STATUS_HANDLE_IS_NULLPTR);
+        CHECK_HIP(hipFree(d_NA));
+        CHECK_HIP(hipFree(d_NB));
+        CHECK_HIP(hipFree(d_NC));
+    }
+
 #if defined(CHIPBLAS_HAS_FP64)
     double *d_dx = nullptr, *d_dy = nullptr;
     CHECK_HIP(hipMalloc(&d_dx, N8 * sizeof(double)));
@@ -131,6 +187,27 @@ int main() {
         CHECK_HIP(hipMemcpy(d_dx, dx.data(), N8 * sizeof(double), hipMemcpyHostToDevice));
         CHECK_HIP(hipMemcpy(d_dy, dy.data(), N8 * sizeof(double), hipMemcpyHostToDevice));
     };
+    {
+        const double a1 = 1.0;
+        EXPECT_BLAS_STATUS(hipblasDaxpy(h, N8, nullptr, d_dx, 1, d_dy, 1),
+                           HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(hipblasDscal(h, N8, nullptr, d_dx, 1), HIPBLAS_STATUS_INVALID_VALUE);
+        double *d_DA = nullptr, *d_DB = nullptr, *d_DC = nullptr;
+        CHECK_HIP(hipMalloc(&d_DA, (size_t)m4 * k2 * sizeof(double)));
+        CHECK_HIP(hipMalloc(&d_DB, (size_t)k2 * n3 * sizeof(double)));
+        CHECK_HIP(hipMalloc(&d_DC, (size_t)m4 * n3 * sizeof(double)));
+        const double ad = 1.0, bd = 0.0;
+        EXPECT_BLAS_STATUS(
+            hipblasDgemm(h, HIPBLAS_OP_N, HIPBLAS_OP_N, m4, n3, k2, &ad, nullptr, m4, d_DB, k2,
+                         &bd, d_DC, m4),
+            HIPBLAS_STATUS_INVALID_VALUE);
+        EXPECT_BLAS_STATUS(
+            hipblasDgemv(h, HIPBLAS_OP_N, m4, k2, &ad, nullptr, m4, d_DB, 1, &bd, d_DC, 1),
+            HIPBLAS_STATUS_INVALID_VALUE);
+        CHECK_HIP(hipFree(d_DA));
+        CHECK_HIP(hipFree(d_DB));
+        CHECK_HIP(hipFree(d_DC));
+    }
 #endif
 
     hipblasComplex *d_cx = nullptr, *d_cy = nullptr;
@@ -1219,6 +1296,7 @@ int main() {
     CHECK_HIP(hipStreamDestroy(stream));
     CHECK_BLAS(hipblasDestroy(h));
 
-    std::printf("api_surface: all public hipblas calls returned SUCCESS\n");
+    std::printf(
+        "api_surface: SUCCESS coverage + shim negative-arg checks completed\n");
     return 0;
 }
