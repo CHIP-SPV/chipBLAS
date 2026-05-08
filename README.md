@@ -108,6 +108,11 @@ Both upper- and lower-case variants of `OPENCL_*` are needed because
 CLBlast's bundled `FindOpenCL.cmake` uses the older spelling while CMake's
 own module uses the newer one.
 
+PoCL / chipStar testing on macOS may need canonical SVM device pointers for
+the bridge (see `src/hipblas_ocl.cc`): set
+`CHIP_OCL_USE_ALLOC_STRATEGY=svm` when running tests (the `test-opencl-macos`
+CI job sets this for the self-hosted runner).
+
 ## Use
 
 ```cpp

@@ -142,8 +142,15 @@ jobs:
       - name: Build
         run: cmake --build build -j
 
+      # chipBLAS wraps HIP device pointers with clCreateBuffer(USE_HOST_PTR).
+      # On pastrami (macOS + PoCL), the default alloc path can yield pointers
+      # outside canonical user-space and the bridge rejects them; SVM strategy
+      # matches local testing. Do not set this on Mali-G52 runners (linux job):
+      # there the default strategy already produces viable pointers.
       - name: Test
         working-directory: build
+        env:
+          CHIP_OCL_USE_ALLOC_STRATEGY: svm
         run: |
           CHIP_BE=opencl \
           DYLD_FALLBACK_LIBRARY_PATH="${CHIPSTAR_DIR}/lib:${PWD}:${DYLD_FALLBACK_LIBRARY_PATH:-}" \
