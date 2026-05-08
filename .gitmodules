@@ -1,3 +1,6 @@
 [submodule "third_party/CLBlast"]
 	path = third_party/CLBlast
 	url = https://github.com/CNugteren/CLBlast.git
+[submodule "third_party/OpenBLAS"]
+	path = third_party/OpenBLAS
+	url = https://github.com/OpenMathLib/OpenBLAS.git

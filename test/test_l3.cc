@@ -1,6 +1,7 @@
 // L3 BLAS correctness vs. CPU reference: Sgemm, Dgemm, Cgemm, Zgemm,
 // each across the four (op_a, op_b) ∈ {N,T} × {N,T} combinations. Cgemm
 // and Zgemm additionally exercise the conjugate-transpose path.
+// Pass argv[1] for a single CTest shard (see test/CMakeLists.txt).
 //
 // SPDX-License-Identifier: MIT
 
@@ -201,42 +202,93 @@ bool runZgemm(hipblasOperation_t opA, hipblasOperation_t opB,
 
 } // namespace
 
-int main() {
-    bool ok = true, a;
-
+int main(int argc, char** argv) {
+    bool ok = true;
     const int M = 32, N = 24, K = 16;
-    struct OpPair { hipblasOperation_t a, b; const char* tag; };
-    OpPair real_ops[] = {
-        {HIPBLAS_OP_N, HIPBLAS_OP_N, "NN"},
-        {HIPBLAS_OP_N, HIPBLAS_OP_T, "NT"},
-        {HIPBLAS_OP_T, HIPBLAS_OP_N, "TN"},
-        {HIPBLAS_OP_T, HIPBLAS_OP_T, "TT"},
-    };
-    for (auto& p : real_ops) {
-        char tag[64];
-        std::snprintf(tag, sizeof(tag), "Sgemm %s %dx%dx%d", p.tag, M, N, K);
-        a = runSgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
-#if defined(CHIPBLAS_HAS_FP64)
-        std::snprintf(tag, sizeof(tag), "Dgemm %s %dx%dx%d", p.tag, M, N, K);
-        a = runDgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
-#endif
-    }
+#define RUN(slug, name, fn)                                                        \
+    if (should_run_case(argc, argv, slug)) {                                       \
+        bool _p = (fn)();                                                           \
+        report(name, _p);                                                           \
+        ok &= _p;                                                                   \
+        if (case_filter_active(argc, argv))                                         \
+            return ok ? 0 : 1;                                                       \
+    }                                                                               \
+    do {                                                                            \
+    } while (0)
 
-    OpPair complex_ops[] = {
-        {HIPBLAS_OP_N, HIPBLAS_OP_N, "NN"},
-        {HIPBLAS_OP_C, HIPBLAS_OP_N, "CN"},
-        {HIPBLAS_OP_N, HIPBLAS_OP_C, "NC"},
-        {HIPBLAS_OP_C, HIPBLAS_OP_C, "CC"},
-    };
-    for (auto& p : complex_ops) {
-        char tag[64];
-        std::snprintf(tag, sizeof(tag), "Cgemm %s %dx%dx%d", p.tag, M, N, K);
-        a = runCgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+    RUN("l3:sgemm-NN", "Sgemm NN 32x24x16",
+        ([M, N, K]() {
+            return runSgemm(HIPBLAS_OP_N, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:sgemm-NT", "Sgemm NT 32x24x16",
+        ([M, N, K]() {
+            return runSgemm(HIPBLAS_OP_N, HIPBLAS_OP_T, M, N, K);
+        }));
+    RUN("l3:sgemm-TN", "Sgemm TN 32x24x16",
+        ([M, N, K]() {
+            return runSgemm(HIPBLAS_OP_T, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:sgemm-TT", "Sgemm TT 32x24x16",
+        ([M, N, K]() {
+            return runSgemm(HIPBLAS_OP_T, HIPBLAS_OP_T, M, N, K);
+        }));
 #if defined(CHIPBLAS_HAS_FP64)
-        std::snprintf(tag, sizeof(tag), "Zgemm %s %dx%dx%d", p.tag, M, N, K);
-        a = runZgemm(p.a, p.b, M, N, K); report(tag, a); ok &= a;
+    RUN("l3:dgemm-NN", "Dgemm NN 32x24x16",
+        ([M, N, K]() {
+            return runDgemm(HIPBLAS_OP_N, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:dgemm-NT", "Dgemm NT 32x24x16",
+        ([M, N, K]() {
+            return runDgemm(HIPBLAS_OP_N, HIPBLAS_OP_T, M, N, K);
+        }));
+    RUN("l3:dgemm-TN", "Dgemm TN 32x24x16",
+        ([M, N, K]() {
+            return runDgemm(HIPBLAS_OP_T, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:dgemm-TT", "Dgemm TT 32x24x16",
+        ([M, N, K]() {
+            return runDgemm(HIPBLAS_OP_T, HIPBLAS_OP_T, M, N, K);
+        }));
 #endif
-    }
+    RUN("l3:cgemm-NN", "Cgemm NN 32x24x16",
+        ([M, N, K]() {
+            return runCgemm(HIPBLAS_OP_N, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:cgemm-CN", "Cgemm CN 32x24x16",
+        ([M, N, K]() {
+            return runCgemm(HIPBLAS_OP_C, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:cgemm-NC", "Cgemm NC 32x24x16",
+        ([M, N, K]() {
+            return runCgemm(HIPBLAS_OP_N, HIPBLAS_OP_C, M, N, K);
+        }));
+    RUN("l3:cgemm-CC", "Cgemm CC 32x24x16",
+        ([M, N, K]() {
+            return runCgemm(HIPBLAS_OP_C, HIPBLAS_OP_C, M, N, K);
+        }));
+#if defined(CHIPBLAS_HAS_FP64)
+    RUN("l3:zgemm-NN", "Zgemm NN 32x24x16",
+        ([M, N, K]() {
+            return runZgemm(HIPBLAS_OP_N, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:zgemm-CN", "Zgemm CN 32x24x16",
+        ([M, N, K]() {
+            return runZgemm(HIPBLAS_OP_C, HIPBLAS_OP_N, M, N, K);
+        }));
+    RUN("l3:zgemm-NC", "Zgemm NC 32x24x16",
+        ([M, N, K]() {
+            return runZgemm(HIPBLAS_OP_N, HIPBLAS_OP_C, M, N, K);
+        }));
+    RUN("l3:zgemm-CC", "Zgemm CC 32x24x16",
+        ([M, N, K]() {
+            return runZgemm(HIPBLAS_OP_C, HIPBLAS_OP_C, M, N, K);
+        }));
+#endif
+#undef RUN
 
+    if (case_filter_active(argc, argv)) {
+        std::fprintf(stderr, "unknown l3 case \"%s\"\n", argv[1]);
+        return 2;
+    }
     return ok ? 0 : 1;
 }

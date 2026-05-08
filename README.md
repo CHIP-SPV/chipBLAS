@@ -69,6 +69,16 @@ cmake --build build -j
 ctest --test-dir build --output-on-failure
 ```
 
+### Reference checks (CTest)
+
+Numerical tests compare GPU results to a **host reference** in `test/blas_reference.hh` (same formulas as the BLAS routines). Run everything with:
+
+```bash
+ctest --test-dir build --output-on-failure
+```
+
+The `conformance` executable (`test_conformance`) bundles the broader L1/L2/L3 scenario set in one process (exit `0` only if all pass).
+
 To use a system-installed CLBlast instead of the vendored submodule:
 
 ```bash

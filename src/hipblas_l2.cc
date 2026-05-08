@@ -3,33 +3,25 @@
 // SPDX-License-Identifier: MIT
 
 #include "chipblas_internal.hh"
+#include "hipblas_clblast_common.hh"
 
 #include <hip/hip_runtime.h>
 
+#include <cstring>
 #include <cstdlib>
 
 using chipblas::BufDir;
 using chipblas::Handle;
 using chipblas::StagedBuffer;
+using hipblas_clblast::mapTranspose;
 
 namespace {
-
-CLBlastTranspose mapTranspose(hipblasOperation_t op) {
-    switch (op) {
-    case HIPBLAS_OP_N: return CLBlastTransposeNo;
-    case HIPBLAS_OP_T: return CLBlastTransposeYes;
-    case HIPBLAS_OP_C: return CLBlastTransposeConjugate;
-    }
-    return CLBlastTransposeNo;
-}
 
 // Footprint for a vector with `len` logical elements and stride `inc`. We
 // model a contiguous range from offset 0 to (len-1)*|inc|+1 elements; v0
 // only supports inc > 0.
 size_t vecBytes(int len, int inc, size_t elemBytes) {
-    int absInc = inc < 0 ? -inc : inc;
-    if (len <= 0 || absInc < 1) return 0;
-    return (static_cast<size_t>(len - 1) * absInc + 1) * elemBytes;
+    return hipblas_clblast::vecBytesElem(len, inc, elemBytes);
 }
 
 template <class Dispatch>
@@ -129,6 +121,98 @@ hipblasStatus_t hipblasDgemv(hipblasHandle_t handle, hipblasOperation_t trans,
                 A_.mem, A_.offset / E, (size_t)lda,
                 X_.mem, X_.offset / E, (size_t)incx,
                 *beta,
+                Y_.mem, Y_.offset / E, (size_t)incy,
+                q, nullptr);
+        });
+}
+
+hipblasStatus_t hipblasCgemv(hipblasHandle_t handle, hipblasOperation_t trans,
+                             int m, int n,
+                             const hipblasComplex* alpha,
+                             const hipblasComplex* A, int lda,
+                             const hipblasComplex* x, int incx,
+                             const hipblasComplex* beta,
+                             hipblasComplex* y, int incy) {
+    if (!alpha || !beta) return HIPBLAS_STATUS_INVALID_VALUE;
+    size_t aBytes = static_cast<size_t>(lda) * static_cast<size_t>(n)
+                  * sizeof(hipblasComplex);
+    return gemvRun(handle, trans, m, n, incx, incy, aBytes,
+                   sizeof(hipblasComplex),
+        A, x, y,
+        [&](chipblas::StagedBuffer& A_, chipblas::StagedBuffer& X_,
+            chipblas::StagedBuffer& Y_, cl_command_queue* q) {
+            constexpr size_t E = sizeof(hipblasComplex);
+            cl_float2 a = {{alpha->x, alpha->y}};
+            cl_float2 b = {{beta->x,  beta->y}};
+            return CLBlastCgemv(
+                CLBlastLayoutColMajor, mapTranspose(trans),
+                (size_t)m, (size_t)n,
+                a,
+                A_.mem, A_.offset / E, (size_t)lda,
+                X_.mem, X_.offset / E, (size_t)incx,
+                b,
+                Y_.mem, Y_.offset / E, (size_t)incy,
+                q, nullptr);
+        });
+}
+
+hipblasStatus_t hipblasZgemv(hipblasHandle_t handle, hipblasOperation_t trans,
+                             int m, int n,
+                             const hipblasDoubleComplex* alpha,
+                             const hipblasDoubleComplex* A, int lda,
+                             const hipblasDoubleComplex* x, int incx,
+                             const hipblasDoubleComplex* beta,
+                             hipblasDoubleComplex* y, int incy) {
+    if (!alpha || !beta) return HIPBLAS_STATUS_INVALID_VALUE;
+    size_t aBytes = static_cast<size_t>(lda) * static_cast<size_t>(n)
+                  * sizeof(hipblasDoubleComplex);
+    return gemvRun(handle, trans, m, n, incx, incy, aBytes,
+                   sizeof(hipblasDoubleComplex),
+        A, x, y,
+        [&](chipblas::StagedBuffer& A_, chipblas::StagedBuffer& X_,
+            chipblas::StagedBuffer& Y_, cl_command_queue* q) {
+            constexpr size_t E = sizeof(hipblasDoubleComplex);
+            cl_double2 a = {{alpha->x, alpha->y}};
+            cl_double2 b = {{beta->x,  beta->y}};
+            return CLBlastZgemv(
+                CLBlastLayoutColMajor, mapTranspose(trans),
+                (size_t)m, (size_t)n,
+                a,
+                A_.mem, A_.offset / E, (size_t)lda,
+                X_.mem, X_.offset / E, (size_t)incx,
+                b,
+                Y_.mem, Y_.offset / E, (size_t)incy,
+                q, nullptr);
+        });
+}
+
+hipblasStatus_t hipblasHgemv(hipblasHandle_t handle, hipblasOperation_t trans,
+                             int m, int n,
+                             const hipblasHalf* alpha,
+                             const hipblasHalf* A, int lda,
+                             const hipblasHalf* x, int incx,
+                             const hipblasHalf* beta,
+                             hipblasHalf* y, int incy) {
+    if (!alpha || !beta) return HIPBLAS_STATUS_INVALID_VALUE;
+    size_t aBytes = static_cast<size_t>(lda) * static_cast<size_t>(n)
+                  * sizeof(hipblasHalf);
+    return gemvRun(handle, trans, m, n, incx, incy, aBytes,
+                   sizeof(hipblasHalf),
+        A, x, y,
+        [&](chipblas::StagedBuffer& A_, chipblas::StagedBuffer& X_,
+            chipblas::StagedBuffer& Y_, cl_command_queue* q) {
+            constexpr size_t E = sizeof(hipblasHalf);
+            cl_half ah {};
+            cl_half bh {};
+            std::memcpy(&ah, alpha, sizeof(ah));
+            std::memcpy(&bh, beta, sizeof(bh));
+            return CLBlastHgemv(
+                CLBlastLayoutColMajor, mapTranspose(trans),
+                (size_t)m, (size_t)n,
+                ah,
+                A_.mem, A_.offset / E, (size_t)lda,
+                X_.mem, X_.offset / E, (size_t)incx,
+                bh,
                 Y_.mem, Y_.offset / E, (size_t)incy,
                 q, nullptr);
         });

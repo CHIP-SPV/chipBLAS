@@ -1,5 +1,6 @@
 // L2 BLAS correctness vs. CPU reference: Sgemv, Dgemv, with both
 // no-transpose and transpose ops, plus a non-unit increment case.
+// Pass argv[1] for a single CTest shard (see test/CMakeLists.txt).
 //
 // SPDX-License-Identifier: MIT
 
@@ -114,16 +115,40 @@ bool runDgemv(hipblasOperation_t op, int m, int n, int incx, int incy) {
 
 } // namespace
 
-int main() {
-    bool ok = true, a;
-    a = runSgemv(HIPBLAS_OP_N, 64, 48, 1, 1); report("Sgemv N 64x48 inc=1,1", a); ok &= a;
-    a = runSgemv(HIPBLAS_OP_T, 64, 48, 1, 1); report("Sgemv T 64x48 inc=1,1", a); ok &= a;
-    a = runSgemv(HIPBLAS_OP_N, 33, 27, 2, 3); report("Sgemv N 33x27 inc=2,3", a); ok &= a;
-    a = runSgemv(HIPBLAS_OP_T, 33, 27, 2, 3); report("Sgemv T 33x27 inc=2,3", a); ok &= a;
+int main(int argc, char** argv) {
+    bool ok = true;
+#define RUN(slug, name, fn)                                                        \
+    if (should_run_case(argc, argv, slug)) {                                        \
+        bool _p = (fn)();                                                           \
+        report(name, _p);                                                           \
+        ok &= _p;                                                                   \
+        if (case_filter_active(argc, argv))                                         \
+            return ok ? 0 : 1;                                                      \
+    }                                                                               \
+    do {                                                                            \
+    } while (0)
+
+    RUN("l2:sgemv-N-unit", "Sgemv N 64x48 inc=1,1",
+        ([]() { return runSgemv(HIPBLAS_OP_N, 64, 48, 1, 1); }));
+    RUN("l2:sgemv-T-unit", "Sgemv T 64x48 inc=1,1",
+        ([]() { return runSgemv(HIPBLAS_OP_T, 64, 48, 1, 1); }));
+    RUN("l2:sgemv-N-strided", "Sgemv N 33x27 inc=2,3",
+        ([]() { return runSgemv(HIPBLAS_OP_N, 33, 27, 2, 3); }));
+    RUN("l2:sgemv-T-strided", "Sgemv T 33x27 inc=2,3",
+        ([]() { return runSgemv(HIPBLAS_OP_T, 33, 27, 2, 3); }));
 #if defined(CHIPBLAS_HAS_FP64)
-    a = runDgemv(HIPBLAS_OP_N, 64, 48, 1, 1); report("Dgemv N 64x48 inc=1,1", a); ok &= a;
-    a = runDgemv(HIPBLAS_OP_T, 64, 48, 1, 1); report("Dgemv T 64x48 inc=1,1", a); ok &= a;
-    a = runDgemv(HIPBLAS_OP_T, 33, 27, 2, 1); report("Dgemv T 33x27 inc=2,1", a); ok &= a;
+    RUN("l2:dgemv-N-unit", "Dgemv N 64x48 inc=1,1",
+        ([]() { return runDgemv(HIPBLAS_OP_N, 64, 48, 1, 1); }));
+    RUN("l2:dgemv-T-unit", "Dgemv T 64x48 inc=1,1",
+        ([]() { return runDgemv(HIPBLAS_OP_T, 64, 48, 1, 1); }));
+    RUN("l2:dgemv-T-strided", "Dgemv T 33x27 inc=2,1",
+        ([]() { return runDgemv(HIPBLAS_OP_T, 33, 27, 2, 1); }));
 #endif
+#undef RUN
+
+    if (case_filter_active(argc, argv)) {
+        std::fprintf(stderr, "unknown l2 case \"%s\"\n", argv[1]);
+        return 2;
+    }
     return ok ? 0 : 1;
 }

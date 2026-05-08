@@ -81,10 +81,10 @@ hipblasStatus_t bridgeBindStream(Handle& h) {
 
 namespace {
 
-// Canonical user-space on Linux x86-64: [0, 0x00007fffffffffff].
+// Canonical user-space on Linux x86-64: [0, TASK_SIZE_MAX-1] = [0, 0x00007fffffffffff].
 // Intel USM device-only pointers appear above this range; wrapping them
 // with USE_HOST_PTR silently aliases wrong memory.
-constexpr uintptr_t kCanonicalMax = 0x00007fffffffffffULL;
+constexpr uintptr_t kCanonicalMax = 0x0000800000000000ULL - 1; // TASK_SIZE_MAX - 1
 
 } // namespace
 

@@ -1,6 +1,7 @@
 // L1 BLAS correctness vs. CPU reference: Saxpy, Daxpy, Sscal, Dscal.
 // Each routine is exercised with both unit stride and a non-unit stride to
-// catch offset-handling bugs in the bridge.
+// catch offset-handling bugs in the bridge. Pass argv[1] for a single CTest
+// shard slug (see test/CMakeLists.txt).
 //
 // SPDX-License-Identifier: MIT
 
@@ -137,20 +138,44 @@ bool runDscal(int n, int incx) {
 
 } // namespace
 
-int main() {
+int main(int argc, char** argv) {
     bool ok = true;
-    bool a;
-    a = runSaxpy(1024, 1, 1);            report("Saxpy n=1024 inc=1,1",  a); ok &= a;
-    a = runSaxpy(513, 2, 3);             report("Saxpy n=513  inc=2,3",  a); ok &= a;
+#define RUN(slug, name, fn)                                                        \
+    if (should_run_case(argc, argv, slug)) {                                       \
+        bool _p = (fn)();                                                           \
+        report(name, _p);                                                           \
+        ok &= _p;                                                                   \
+        if (case_filter_active(argc, argv))                                         \
+            return ok ? 0 : 1;                                                      \
+    }                                                                               \
+    do {                                                                            \
+    } while (0)
+
+    RUN("l1:saxpy-inc1", "Saxpy n=1024 inc=1,1",
+        ([]() { return runSaxpy(1024, 1, 1); }));
+    RUN("l1:saxpy-strided", "Saxpy n=513  inc=2,3",
+        ([]() { return runSaxpy(513, 2, 3); }));
 #if defined(CHIPBLAS_HAS_FP64)
-    a = runDaxpy(1024, 1, 1);            report("Daxpy n=1024 inc=1,1",  a); ok &= a;
-    a = runDaxpy(257, 4, 1);             report("Daxpy n=257  inc=4,1",  a); ok &= a;
+    RUN("l1:daxpy-inc1", "Daxpy n=1024 inc=1,1",
+        ([]() { return runDaxpy(1024, 1, 1); }));
+    RUN("l1:daxpy-strided", "Daxpy n=257  inc=4,1",
+        ([]() { return runDaxpy(257, 4, 1); }));
 #endif
-    a = runSscal(2048, 1);               report("Sscal n=2048 inc=1",    a); ok &= a;
-    a = runSscal(331, 5);                report("Sscal n=331  inc=5",    a); ok &= a;
+    RUN("l1:sscal-inc1", "Sscal n=2048 inc=1",
+        ([]() { return runSscal(2048, 1); }));
+    RUN("l1:sscal-strided", "Sscal n=331  inc=5",
+        ([]() { return runSscal(331, 5); }));
 #if defined(CHIPBLAS_HAS_FP64)
-    a = runDscal(2048, 1);               report("Dscal n=2048 inc=1",    a); ok &= a;
-    a = runDscal(331, 3);                report("Dscal n=331  inc=3",    a); ok &= a;
+    RUN("l1:dscal-inc1", "Dscal n=2048 inc=1",
+        ([]() { return runDscal(2048, 1); }));
+    RUN("l1:dscal-strided", "Dscal n=331  inc=3",
+        ([]() { return runDscal(331, 3); }));
 #endif
+#undef RUN
+
+    if (case_filter_active(argc, argv)) {
+        std::fprintf(stderr, "unknown l1 case \"%s\"\n", argv[1]);
+        return 2;
+    }
     return ok ? 0 : 1;
 }

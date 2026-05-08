@@ -13,6 +13,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <vector>
 
 #define CHECK_HIP(expr) do { \
@@ -35,10 +36,25 @@
 
 namespace chipblas_test {
 
+// CTest shards: argv[1] selects a single case; no extra args runs all cases in
+// the executable.
+inline bool case_filter_active(int argc, char** argv) {
+    return argc >= 2 && argv[1] != nullptr && argv[1][0] != '\0';
+}
+inline bool should_run_case(int argc, char** argv, const char* slug) {
+    if (!case_filter_active(argc, argv))
+        return true;
+    return std::strcmp(argv[1], slug) == 0;
+}
+
 // Deterministic [-1, 1)-ish filler keyed on (i, salt) so multiple buffers
 // in the same test get distinct content.
 inline float fillF(int i, int salt) {
-    int v = (i * 1103515245 + salt * 12345) & 0xffff;
+    // Unsigned: signed int overflow in (i * 1103515245 + ...) was undefined and
+    // could trap under -O3 before any HIP call (empty stderr, SIGABRT in fill).
+    unsigned v = (static_cast<unsigned>(i) * 1103515245u
+                    + static_cast<unsigned>(salt) * 12345u)
+                   & 0xffffu;
     return (static_cast<float>(v) / 32768.0f) - 1.0f;
 }
 inline double fillD(int i, int salt) {

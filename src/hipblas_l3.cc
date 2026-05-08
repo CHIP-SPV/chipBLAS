@@ -7,86 +7,20 @@
 // SPDX-License-Identifier: MIT
 
 #include "chipblas_internal.hh"
+#include "hipblas_clblast_common.hh"
+#include "hipblas_matmul_bridge.hh"
 
 #include <hip/hip_runtime.h>
 
+#include <cstring>
+
 #include <cstddef>
 
-using chipblas::BufDir;
-using chipblas::Handle;
-using chipblas::StagedBuffer;
-
-namespace {
-
-CLBlastTranspose mapTranspose(hipblasOperation_t op) {
-    switch (op) {
-    case HIPBLAS_OP_N: return CLBlastTransposeNo;
-    case HIPBLAS_OP_T: return CLBlastTransposeYes;
-    case HIPBLAS_OP_C: return CLBlastTransposeConjugate;
-    }
-    return CLBlastTransposeNo;
-}
-
-// Column-major: op(A) is m×k logically; physically A occupies lda rows by
-// (k if op_a==N else m) columns, so the byte footprint is lda * cols.
-size_t gemmAByteCount(hipblasOperation_t op, int m, int k, int lda,
-                      size_t elemBytes) {
-    int cols = (op == HIPBLAS_OP_N) ? k : m;
-    return static_cast<size_t>(lda) * static_cast<size_t>(cols) * elemBytes;
-}
-size_t gemmBByteCount(hipblasOperation_t op, int k, int n, int ldb,
-                      size_t elemBytes) {
-    int cols = (op == HIPBLAS_OP_N) ? n : k;
-    return static_cast<size_t>(ldb) * static_cast<size_t>(cols) * elemBytes;
-}
-size_t gemmCByteCount(int /*m*/, int n, int ldc, size_t elemBytes) {
-    return static_cast<size_t>(ldc) * static_cast<size_t>(n) * elemBytes;
-}
-
-// Common bulk: validate, stage, dispatch via a typed callable, write back.
-// `Dispatch` is invoked as: int dispatch(cl_mem A, cl_mem B, cl_mem C,
-//                                        cl_command_queue* q);
-template <class Dispatch>
-hipblasStatus_t gemmRun(hipblasHandle_t handle,
-                        hipblasOperation_t /*transA*/,
-                        hipblasOperation_t /*transB*/,
-                        size_t aBytes, size_t bBytes, size_t cBytes,
-                        const void* A, const void* B, void* C,
-                        Dispatch&& dispatch) {
-    if (!handle) return HIPBLAS_STATUS_HANDLE_IS_NULLPTR;
-    auto* h = reinterpret_cast<Handle*>(handle);
-    if (!h->isOpenCL) return HIPBLAS_STATUS_NOT_SUPPORTED;
-    if (!A || !B || !C) return HIPBLAS_STATUS_INVALID_VALUE;
-
-    StagedBuffer sa, sb, sc;
-    auto rc = chipblas::bridgeStage(*h, const_cast<void*>(A), aBytes,
-                                    BufDir::IN, &sa);
-    if (rc != HIPBLAS_STATUS_SUCCESS) return rc;
-    rc = chipblas::bridgeStage(*h, const_cast<void*>(B), bBytes,
-                               BufDir::IN, &sb);
-    if (rc != HIPBLAS_STATUS_SUCCESS) {
-        chipblas::bridgeWriteBack(*h, sa);
-        return rc;
-    }
-    rc = chipblas::bridgeStage(*h, C, cBytes, BufDir::INOUT, &sc);
-    if (rc != HIPBLAS_STATUS_SUCCESS) {
-        chipblas::bridgeWriteBack(*h, sa);
-        chipblas::bridgeWriteBack(*h, sb);
-        return rc;
-    }
-
-    cl_command_queue queue = h->queue;
-    int clb = dispatch(sa, sb, sc, &queue);
-
-    // Inputs: just release. Output: read back to HIP and release.
-    chipblas::bridgeWriteBack(*h, sa);
-    chipblas::bridgeWriteBack(*h, sb);
-    auto wb = chipblas::bridgeWriteBack(*h, sc);
-    auto translated = chipblas::translate(clb);
-    return (translated != HIPBLAS_STATUS_SUCCESS) ? translated : wb;
-}
-
-} // namespace
+using hipblas_clblast::mapTranspose;
+using hipblas_mm::gemmAByteCount;
+using hipblas_mm::gemmBByteCount;
+using hipblas_mm::gemmCByteCount;
+using hipblas_mm::gemmRun;
 
 extern "C" {
 
@@ -213,6 +147,41 @@ hipblasStatus_t hipblasZgemm(hipblasHandle_t handle,
                 A_.mem, A_.offset / E, (size_t)lda,
                 B_.mem, B_.offset / E, (size_t)ldb,
                 b,
+                C_.mem, C_.offset / E, (size_t)ldc,
+                q, nullptr);
+        });
+}
+
+hipblasStatus_t hipblasHgemm(hipblasHandle_t handle,
+                             hipblasOperation_t transA,
+                             hipblasOperation_t transB,
+                             int m, int n, int k,
+                             const hipblasHalf* alpha,
+                             const hipblasHalf* A, int lda,
+                             const hipblasHalf* B, int ldb,
+                             const hipblasHalf* beta,
+                             hipblasHalf* C, int ldc) {
+    if (!alpha || !beta) return HIPBLAS_STATUS_INVALID_VALUE;
+    cl_half ah {};
+    cl_half bh {};
+    std::memcpy(&ah, alpha, sizeof(ah));
+    std::memcpy(&bh, beta, sizeof(bh));
+    return gemmRun(handle, transA, transB,
+        gemmAByteCount(transA, m, k, lda, sizeof(hipblasHalf)),
+        gemmBByteCount(transB, k, n, ldb, sizeof(hipblasHalf)),
+        gemmCByteCount(m, n, ldc, sizeof(hipblasHalf)),
+        A, B, C,
+        [&](chipblas::StagedBuffer& A_, chipblas::StagedBuffer& B_,
+            chipblas::StagedBuffer& C_, cl_command_queue* q) {
+            constexpr size_t E = sizeof(hipblasHalf);
+            return CLBlastHgemm(
+                CLBlastLayoutColMajor,
+                mapTranspose(transA), mapTranspose(transB),
+                (size_t)m, (size_t)n, (size_t)k,
+                ah,
+                A_.mem, A_.offset / E, (size_t)lda,
+                B_.mem, B_.offset / E, (size_t)ldb,
+                bh,
                 C_.mem, C_.offset / E, (size_t)ldc,
                 q, nullptr);
         });

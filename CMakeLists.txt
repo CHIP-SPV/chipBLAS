@@ -88,6 +88,7 @@ set(_CHIPBLAS_SRC
     src/hipblas_l1.cc
     src/hipblas_l2.cc
     src/hipblas_l3.cc
+    src/hipblas_extras.cc
 )
 
 add_library(hipblas SHARED ${_CHIPBLAS_SRC})
