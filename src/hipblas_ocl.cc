@@ -4,14 +4,13 @@
 // each HIP stream via hipGetBackendNativeHandles(). We fish those out so
 // CLBlast can submit its own kernels into the same context.
 //
-// HIP device pointers on chipStar's SVM allocation path are valid virtual
-// addresses in canonical user-space. We wrap them as cl_mem via
-// clCreateBuffer(CL_MEM_USE_HOST_PTR) — no host copy, CLBlast operates
-// directly on the SVM-backed device memory.
+// HIP device pointers on chipStar's SVM allocation path are wrapped as
+// cl_mem via clCreateBuffer(CL_MEM_USE_HOST_PTR).
 //
-// Requirement: chipStar must use an SVM allocation strategy
-// (CHIP_OCL_USE_ALLOC_STRATEGY=svm or coarsegrain). Intel USM device
-// pointers appear at non-canonical addresses and are rejected.
+// Requirement: chipStar should use an SVM allocation strategy (e.g.
+// CHIP_OCL_USE_ALLOC_STRATEGY=svm). Intel USM-only device pointers on x86
+// often fail the default static address bound; AArch64 (Mali) SVM can also
+// lay out buffers above that x86 heuristic — set CHIPBLAS_RELAX_CANONICAL_SVM.
 //
 // SPDX-License-Identifier: MIT
 
@@ -21,6 +20,7 @@
 #include <hip/hip_interop.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 
 namespace chipblas {
@@ -81,9 +81,12 @@ hipblasStatus_t bridgeBindStream(Handle& h) {
 
 namespace {
 
-// Canonical user-space on Linux x86-64: [0, TASK_SIZE_MAX-1] = [0, 0x00007fffffffffff].
-// Intel USM device-only pointers appear above this range; wrapping them
-// with USE_HOST_PTR silently aliases wrong memory.
+// Heuristic for “probably host” addresses: matches Linux x86-64 user VAs.
+// AArch64 SVM paths (e.g. Mali + chipStar) can place HIP buffers above this
+// bound while still being valid USE_HOST_PTR host pointers — allow those when
+// CHIPBLAS_RELAX_CANONICAL_SVM is set (see CI for salami).
+// Intel USM device-only pointers on x86 often sit in the high half; this check
+// still catches them when relax is unset.
 constexpr uintptr_t kCanonicalMax = 0x0000800000000000ULL - 1; // TASK_SIZE_MAX - 1
 
 } // namespace
@@ -98,11 +101,15 @@ hipblasStatus_t bridgeStage(Handle& h, void* hipPtr, size_t bytes,
     out->bytes  = bytes;
     out->dir    = dir;
 
-    if (reinterpret_cast<uintptr_t>(hipPtr) > kCanonicalMax) {
+    const bool relaxCanonical = std::getenv("CHIPBLAS_RELAX_CANONICAL_SVM");
+    if (!relaxCanonical
+        && reinterpret_cast<uintptr_t>(hipPtr) > kCanonicalMax) {
         std::fprintf(stderr,
-            "chipBLAS: SVM wrap failed — pointer %p is not in canonical "
-            "user-space (USM device pointer?). Use "
-            "CHIP_OCL_USE_ALLOC_STRATEGY=svm.\n", hipPtr);
+            "chipBLAS: SVM wrap rejected pointer %p (fails x86_64-style "
+            "user VA bound). If this is valid SVM on AArch64, set "
+            "CHIPBLAS_RELAX_CANONICAL_SVM; else try "
+            "CHIP_OCL_USE_ALLOC_STRATEGY=svm (Intel USM needs the bound).\n",
+            hipPtr);
         return HIPBLAS_STATUS_NOT_SUPPORTED;
     }
 
