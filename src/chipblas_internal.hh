@@ -44,8 +44,9 @@ hipblasStatus_t bridgeBindStream(Handle& h);
 
 // Wrap a HIP SVM pointer as a cl_mem (USE_HOST_PTR). No host copy.
 // Requires chipStar to use an SVM allocation strategy
-// (CHIP_OCL_USE_ALLOC_STRATEGY=svm). Fails with NOT_SUPPORTED for
-// non-canonical addresses (Intel USM device pointers).
+// (CHIP_OCL_USE_ALLOC_STRATEGY=svm). Fails with NOT_SUPPORTED when the
+// pointer is a USM device-only allocation, as detected via the Intel USM
+// extension (cl_intel_unified_shared_memory).
 enum class BufDir { IN, OUT, INOUT };  // kept for call-site compatibility
 
 struct StagedBuffer {

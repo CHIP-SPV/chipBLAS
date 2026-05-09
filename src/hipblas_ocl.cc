@@ -5,12 +5,17 @@
 // CLBlast can submit its own kernels into the same context.
 //
 // HIP device pointers on chipStar's SVM allocation path are wrapped as
-// cl_mem via clCreateBuffer(CL_MEM_USE_HOST_PTR).
+// cl_mem via clCreateBuffer(CL_MEM_USE_HOST_PTR) — no host copy, CLBlast
+// operates directly on the SVM-backed device memory.
 //
-// Requirement: chipStar should use an SVM allocation strategy (e.g.
-// CHIP_OCL_USE_ALLOC_STRATEGY=svm). Intel USM-only device pointers on x86
-// often fail the default static address bound; AArch64 (Mali) SVM can also
-// lay out buffers above that x86 heuristic — set CHIPBLAS_RELAX_CANONICAL_SVM.
+// Requirement: chipStar must hand us host-addressable pointers
+// (CHIP_OCL_USE_ALLOC_STRATEGY=svm). On Intel platforms that expose
+// cl_intel_unified_shared_memory we use clGetMemAllocInfoINTEL to reject
+// device-only USM pointers — wrapping those would silently alias the
+// wrong memory because the OpenCL runtime does not validate the host_ptr.
+// Platforms without the extension (e.g. Mali, PoCL) cannot produce USM
+// device-only pointers, so the per-call query is skipped after the first
+// negative resolution.
 //
 // SPDX-License-Identifier: MIT
 
@@ -20,8 +25,8 @@
 #include <hip/hip_interop.h>
 
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
+#include <mutex>
 
 namespace chipblas {
 
@@ -34,6 +39,45 @@ namespace {
 //   [3] cl_context
 //   [4] cl_command_queue
 constexpr int kHandleCount = 5;
+
+// cl_intel_unified_shared_memory enums (kept local; the extension header
+// isn't always installed alongside CL/cl.h).
+constexpr cl_uint kClMemAllocTypeIntel = 0x419A;
+constexpr cl_uint kClMemTypeUnknown    = 0x4196;
+constexpr cl_uint kClMemTypeDevice     = 0x4198;
+
+using GetMemAllocInfoFn = cl_int (CL_API_CALL*)(
+    cl_context, const void*, cl_uint, size_t, void*, size_t*);
+
+// chipStar binds one OpenCL platform per process — resolve the USM query
+// once. Null `fn` means the platform doesn't expose the extension, so no
+// pointer on it can be USM device-only and per-call validation is skipped.
+struct UsmProbe {
+    GetMemAllocInfoFn fn = nullptr;
+};
+
+const UsmProbe& probeUsm(cl_platform_id platform) {
+    static UsmProbe       probe;
+    static std::once_flag flag;
+    std::call_once(flag, [&]() {
+        probe.fn = reinterpret_cast<GetMemAllocInfoFn>(
+            clGetExtensionFunctionAddressForPlatform(
+                platform, "clGetMemAllocInfoINTEL"));
+    });
+    return probe;
+}
+
+bool isUsmDeviceOnly(const Handle& h, const void* ptr) {
+    const UsmProbe& probe = probeUsm(h.platform);
+    if (!probe.fn) return false;
+
+    cl_uint allocType = kClMemTypeUnknown;
+    if (probe.fn(h.context, ptr, kClMemAllocTypeIntel,
+                 sizeof(allocType), &allocType, nullptr) != CL_SUCCESS) {
+        return false;
+    }
+    return allocType == kClMemTypeDevice;
+}
 
 } // namespace
 
@@ -79,18 +123,6 @@ hipblasStatus_t bridgeBindStream(Handle& h) {
     return HIPBLAS_STATUS_SUCCESS;
 }
 
-namespace {
-
-// Heuristic for “probably host” addresses: matches Linux x86-64 user VAs.
-// AArch64 SVM paths (e.g. Mali + chipStar) can place HIP buffers above this
-// bound while still being valid USE_HOST_PTR host pointers — allow those when
-// CHIPBLAS_RELAX_CANONICAL_SVM is set (see CI for salami).
-// Intel USM device-only pointers on x86 often sit in the high half; this check
-// still catches them when relax is unset.
-constexpr uintptr_t kCanonicalMax = 0x0000800000000000ULL - 1; // TASK_SIZE_MAX - 1
-
-} // namespace
-
 hipblasStatus_t bridgeStage(Handle& h, void* hipPtr, size_t bytes,
                             BufDir dir, StagedBuffer* out) {
     if (!h.isOpenCL) return HIPBLAS_STATUS_NOT_SUPPORTED;
@@ -101,15 +133,11 @@ hipblasStatus_t bridgeStage(Handle& h, void* hipPtr, size_t bytes,
     out->bytes  = bytes;
     out->dir    = dir;
 
-    const bool relaxCanonical = std::getenv("CHIPBLAS_RELAX_CANONICAL_SVM");
-    if (!relaxCanonical
-        && reinterpret_cast<uintptr_t>(hipPtr) > kCanonicalMax) {
+    if (isUsmDeviceOnly(h, hipPtr)) {
         std::fprintf(stderr,
-            "chipBLAS: SVM wrap rejected pointer %p (fails x86_64-style "
-            "user VA bound). If this is valid SVM on AArch64, set "
-            "CHIPBLAS_RELAX_CANONICAL_SVM; else try "
-            "CHIP_OCL_USE_ALLOC_STRATEGY=svm (Intel USM needs the bound).\n",
-            hipPtr);
+            "chipBLAS: cannot wrap pointer %p — it is a USM device-only "
+            "allocation. Use CHIP_OCL_USE_ALLOC_STRATEGY=svm so chipStar "
+            "returns host-addressable SVM pointers.\n", hipPtr);
         return HIPBLAS_STATUS_NOT_SUPPORTED;
     }
 
