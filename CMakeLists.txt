@@ -42,6 +42,25 @@ endif()
 include(${CHIP_TARGETS_DIR}/CHIPTargets.cmake)
 message(STATUS "chipBLAS: using chipStar from ${CHIP_TARGETS_DIR}")
 
+# --- Level Zero guard ----------------------------------------------------
+# chipBLAS uses CLBlast on the OpenCL backend exclusively. Intel GPUs with
+# Level Zero should use H4I-HipBLAS (Intel MKL-based), which is the
+# vendor-optimized hipBLAS implementation for Level Zero targets. Refuse
+# to configure if Level Zero is detected so users don't end up with two
+# libhipblas.so installs racing for the same prefix.
+find_path(_LEVEL_ZERO_INCLUDE_DIR level_zero/ze_api.h
+    HINTS /usr/local/include /usr/include)
+find_library(_LEVEL_ZERO_LIBRARY ze_loader
+    HINTS /usr/local/lib /usr/lib)
+if(_LEVEL_ZERO_INCLUDE_DIR OR _LEVEL_ZERO_LIBRARY)
+    message(FATAL_ERROR
+        "Level Zero was found on this system but chipBLAS targets the "
+        "OpenCL/CLBlast stack only. For Intel GPUs with Level Zero, use "
+        "H4I-HipBLAS (https://github.com/CHIP-SPV/H4I-HipBLAS) instead, "
+        "which is backed by Intel MKL and is the recommended hipBLAS "
+        "implementation for Level Zero targets.")
+endif()
+
 # --- OpenCL -------------------------------------------------------------------
 # CLBlast is OpenCL-only, so we always need OpenCL headers + ICD loader.
 find_package(OpenCL REQUIRED)
