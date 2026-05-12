@@ -1,0 +1,744 @@
+{
+  "kernel_family": "copy",
+  "precision": "32",
+  "best_kernel": "CopyMatrixFast",
+  "best_time": "0.14",
+  "best_parameters": "COPY_DIMX=32 COPY_DIMY=16 COPY_VW=1 COPY_WPT=1 PRECISION=32",
+  "arg_m": "2048",
+  "arg_n": "2048",
+  "arg_alpha": "2.00",
+  "clblast_device_type": "GPU",
+  "clblast_device_vendor": "Intel",
+  "clblast_device_architecture": "",
+  "clblast_device_name": "Intel(R) Arc(TM) A770 Graphics",
+  "device": "Intel(R) Arc(TM) A770 Graphics",
+  "platform_vendor": "Intel(R) Corporation",
+  "platform_version": "OpenCL 3.0 ",
+  "device_vendor": "Intel(R) Corporation",
+  "device_type": "GPU",
+  "device_core_clock": "2400",
+  "device_compute_units": "512",
+  "device_extra_info": "",
+  "results": [
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.271,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.267,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.264,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.265,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.160,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.268,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.201,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.268,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.268,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.248,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.267,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.153,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.163,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.269,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.158,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.216,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.278,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.149,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.157,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.279,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.279,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.160,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.281,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.163,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.280,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.160,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.217,
+      "parameters": {"COPY_DIMX": 8,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.144,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.162,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.162,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.149,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.161,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.247,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.165,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.206,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.144,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.145,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.255,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.252,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.163,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.160,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.216,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.145,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.268,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.174,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.157,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.209,
+      "parameters": {"COPY_DIMX": 16,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.157,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.156,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.151,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.256,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.273,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.174,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.217,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 8,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.143,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.150,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.244,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.146,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.180,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.147,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.266,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.184,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.156,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.184,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.175,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.214,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 16,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.259,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.155,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.153,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 1,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.153,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.156,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.152,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.164,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 2,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.157,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.156,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.163,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.154,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 4,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.281,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 1,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.159,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 2,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.160,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 4,"COPY_WPT": 8,"PRECISION": 32}
+    },
+    {
+      "kernel": "CopyMatrixFast",
+      "time": 0.217,
+      "parameters": {"COPY_DIMX": 32,"COPY_DIMY": 32,"COPY_VW": 8,"COPY_WPT": 8,"PRECISION": 32}
+    }
+  ]
+}
