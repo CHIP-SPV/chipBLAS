@@ -94,6 +94,14 @@ if(CHIPBLAS_USE_VENDORED_CLBLAST)
     set(NETLIB   OFF CACHE BOOL "" FORCE)
     add_subdirectory(third_party/CLBlast EXCLUDE_FROM_ALL)
     set(CLBLAST_TARGET clblast)
+    # CLBlast was pulled in EXCLUDE_FROM_ALL, which also suppresses its own
+    # install rules. libhipblas links against libclblast at @rpath, so we
+    # must drop it next to libhipblas in the chipBLAS install prefix or
+    # dyld/ld.so won't find it at runtime.
+    install(TARGETS ${CLBLAST_TARGET}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 else()
     find_package(CLBlast REQUIRED)
     set(CLBLAST_TARGET clblast)
